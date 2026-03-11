@@ -4,18 +4,14 @@ from apps.users.serializers import UserSerializer
 
 
 class ProductImageSerializer(serializers.ModelSerializer):
-    """
-    Mahsulot rasmi uchun serializer.
-    """
+    
     class Meta:
         model = ProductImage
         fields = ['id', 'image', 'order', 'is_main']
 
 
 class ProductListSerializer(serializers.ModelSerializer):
-    """
-    Mahsulotlar ro'yxati uchun qisqa serializer.
-    """
+    
     main_image = serializers.SerializerMethodField()
     category_name = serializers.CharField(source='category.name', read_only=True)
     seller_name = serializers.CharField(source='seller.get_full_name', read_only=True)
@@ -41,9 +37,7 @@ class ProductListSerializer(serializers.ModelSerializer):
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):
-    """
-    Mahsulot detail ko'rinishi uchun serializer.
-    """
+   
     images = ProductImageSerializer(many=True, read_only=True)
     seller = UserSerializer(read_only=True)
     category_name = serializers.CharField(source='category.name', read_only=True)
@@ -59,9 +53,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
 
 
 class ProductCreateSerializer(serializers.ModelSerializer):
-    """
-    Mahsulot yaratish uchun serializer.
-    """
+    
     images = serializers.ListField(
         child=serializers.ImageField(), write_only=True, required=False
     )
@@ -89,9 +81,7 @@ class ProductCreateSerializer(serializers.ModelSerializer):
 
 
 class ProductUpdateSerializer(serializers.ModelSerializer):
-    """
-    Mahsulot yangilash uchun serializer.
-    """
+    
     class Meta:
         model = Product
         fields = [
@@ -100,7 +90,6 @@ class ProductUpdateSerializer(serializers.ModelSerializer):
         ]
 
     def update(self, instance, validated_data):
-        """Aktiv e'lon tahrirlanganida moderatsiyaga o'tkazish."""
         if instance.status == 'aktiv':
             validated_data['status'] = 'moderatsiyada'
         return super().update(instance, validated_data)

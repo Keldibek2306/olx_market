@@ -16,10 +16,7 @@ from .filters import ProductFilter
 
 
 class ProductListCreateView(generics.ListCreateAPIView):
-    """
-    GET: Barcha aktiv mahsulotlar (filter, search, pagination)
-    POST: Yangi e'lon yaratish (faqat seller)
-    """
+    
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ProductFilter
     search_fields = ['title', 'description']
@@ -43,11 +40,7 @@ class ProductListCreateView(generics.ListCreateAPIView):
 
 
 class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
-    """
-    GET: Bitta mahsulot (view_count +1)
-    PUT/PATCH: Tahrirlash (faqat egasi)
-    DELETE: O'chirish (faqat egasi)
-    """
+    
     queryset = Product.objects.select_related('category', 'seller').prefetch_related('images')
 
     def get_permissions(self):
@@ -68,9 +61,7 @@ class ProductDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class ProductPublishView(APIView):
-    """
-    E'lonni moderatsiyadan aktivga o'tkazish.
-    """
+    
     permission_classes = [IsAuthenticated, IsProductOwner]
 
     def post(self, request, pk):
@@ -88,9 +79,7 @@ class ProductPublishView(APIView):
 
 
 class ProductArchiveView(APIView):
-    """
-    E'lonni arxivlash.
-    """
+    
     permission_classes = [IsAuthenticated, IsProductOwner]
 
     def post(self, request, pk):
@@ -105,9 +94,7 @@ class ProductArchiveView(APIView):
 
 
 class ProductSoldView(APIView):
-    """
-    E'lonni sotilgan deb belgilash.
-    """
+    
     permission_classes = [IsAuthenticated, IsProductOwner]
 
     def post(self, request, pk):
@@ -122,9 +109,7 @@ class ProductSoldView(APIView):
 
 
 class MyProductsView(generics.ListAPIView):
-    """
-    Joriy sotuvchining o'z mahsulotlari (barcha statuslar).
-    """
+    
     serializer_class = ProductListSerializer
     permission_classes = [IsAuthenticated]
 

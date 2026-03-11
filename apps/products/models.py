@@ -74,12 +74,11 @@ class Product(models.Model):
         self.save(update_fields=['status', 'published_at', 'expires_at'])
 
     def archive(self):
-        """E'lonni arxivlash."""
+        
         self.status = 'arxivlangan'
         self.save(update_fields=['status'])
 
     def mark_as_sold(self):
-        """E'lonni sotilgan deb belgilash."""
         self.status = 'sotilgan'
         self.save(update_fields=['status'])
         
@@ -88,14 +87,11 @@ class Product(models.Model):
             self.seller.seller_profile.save(update_fields=['total_sales'])
 
     def increment_view(self):
-        """Ko'rishlar sonini oshirish."""
         Product.objects.filter(pk=self.pk).update(view_count=models.F('view_count') + 1)
 
 
 class ProductImage(models.Model):
-    """
-    Mahsulot rasmlari modeli.
-    """
+    
     product = models.ForeignKey(
         Product,
         on_delete=models.CASCADE,
@@ -113,7 +109,6 @@ class ProductImage(models.Model):
         ordering = ['order']
 
     def save(self, *args, **kwargs):
-        """Agar is_main=True bo'lsa, boshqa rasmlarni False qilish."""
         if self.is_main:
             ProductImage.objects.filter(
                 product=self.product, is_main=True
