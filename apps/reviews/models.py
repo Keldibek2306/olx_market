@@ -4,10 +4,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Review(models.Model):
-    """
-    Sotuvchiga qoldirilgan fikr va reyting.
-    Faqat sotib olingan buyurtma uchun bitta fikr.
-    """
+    
     order = models.OneToOneField(
         'orders.Order',
         on_delete=models.CASCADE,
@@ -43,7 +40,6 @@ class Review(models.Model):
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
-        # Sotuvchining reytingini yangilash
         self._update_seller_rating()
 
     def _update_seller_rating(self):

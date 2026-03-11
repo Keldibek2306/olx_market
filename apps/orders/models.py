@@ -3,9 +3,7 @@ from django.conf import settings
 
 
 class Order(models.Model):
-    """
-    Buyurtma modeli.
-    """
+    
     STATUS_CHOICES = (
         ('kutilyapti', 'Kutilyapti'),
         ('kelishilgan', 'Kelishilgan'),

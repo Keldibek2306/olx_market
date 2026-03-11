@@ -3,9 +3,7 @@ from django.utils.text import slugify
 
 
 class Category(models.Model):
-    """
-    Ierarxik kategoriya modeli (parent-child tuzilish).
-    """
+    
     name = models.CharField(max_length=200, verbose_name="Nomi")
     slug = models.SlugField(unique=True, verbose_name="Slug")
     parent = models.ForeignKey(
@@ -32,18 +30,17 @@ class Category(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        """Slug avtomatik yaratiladi."""
+        
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
 
     @property
     def is_root(self):
-        """Ota kategoriyami?"""
+        
         return self.parent is None
 
     def get_all_children(self):
-        """Barcha ichki kategoriyalarni qaytarish."""
         children = list(self.children.filter(is_active=True))
         for child in self.children.filter(is_active=True):
             children.extend(child.get_all_children())

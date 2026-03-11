@@ -4,9 +4,7 @@ from apps.users.serializers import UserSerializer
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-    """
-    Fikr ko'rish uchun serializer.
-    """
+   
     reviewer = UserSerializer(read_only=True)
     seller_name = serializers.CharField(source='seller.get_full_name', read_only=True)
     product_title = serializers.CharField(source='order.product.title', read_only=True)
