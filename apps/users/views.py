@@ -3,7 +3,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
-from rest_framework_simplejwt.views import TokenRefreshView
 from rest_framework_simplejwt.exceptions import TokenError
 from django.utils import timezone
 from drf_spectacular.utils import extend_schema
@@ -16,11 +15,7 @@ from .serializers import (
 
 
 class TelegramLoginView(APIView):
-    """
-    Telegram orqali login yoki ro'yxatdan o'tish.
-    Agar foydalanuvchi mavjud bo'lsa, tokenlar qaytariladi.
-    Agar mavjud bo'lmasa, yangi foydalanuvchi yaratiladi.
-    """
+    
     permission_classes = [AllowAny]
 
     @extend_schema(
@@ -48,7 +43,6 @@ class TelegramLoginView(APIView):
         )
 
         if not created:
-            # Mavjud foydalanuvchi ma'lumotlarini yangilash
             user.username = data['username']
             user.first_name = data['first_name']
             user.last_name = data.get('last_name', user.last_name)
@@ -65,9 +59,7 @@ class TelegramLoginView(APIView):
 
 
 class LogoutView(APIView):
-    """
-    Tokenni blacklistga qo'shish orqali chiqish.
-    """
+    
     permission_classes = [IsAuthenticated]
 
     @extend_schema(
@@ -93,9 +85,7 @@ class LogoutView(APIView):
 
 
 class UserProfileView(generics.RetrieveUpdateAPIView):
-    """
-    O'z profilini ko'rish va tahrirlash.
-    """
+  
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
@@ -108,10 +98,7 @@ class UserProfileView(generics.RetrieveUpdateAPIView):
 
 
 class UpgradeToSellerView(APIView):
-    """
-    Xaridorni sotuvchiga o'tkazish.
-    SellerProfile yaratish uchun sellers app'idagi endpoint ishlatiladi.
-    """
+   
     permission_classes = [IsAuthenticated]
 
     @extend_schema(

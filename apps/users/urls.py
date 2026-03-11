@@ -1,9 +1,9 @@
 from django.urls import path
-from rest_framework_simplejwt.views import TokenRefreshView
-from .views import TelegramLoginView, LogoutView
+from rest_framework_simplejwt.views import TokenRefreshView, TokenBlacklistView
+from .views import TelegramLoginView
 
 urlpatterns = [
     path('telegram-login/', TelegramLoginView.as_view(), name='telegram-login'),
     path('refresh/', TokenRefreshView.as_view(), name='token-refresh'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    path('logout/', TokenBlacklistView.as_view(), name='logout'),
 ]

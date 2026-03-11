@@ -1,7 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
 from django.db.models import Q
 
 from .models import Order
@@ -12,10 +11,7 @@ from .serializers import (
 
 
 class OrderListCreateView(generics.ListCreateAPIView):
-    """
-    GET: O'z buyurtmalarini ko'rish (?role=buyer yoki ?role=seller)
-    POST: Yangi buyurtma yaratish
-    """
+    
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):
@@ -38,10 +34,7 @@ class OrderListCreateView(generics.ListCreateAPIView):
 
 
 class OrderDetailView(generics.RetrieveUpdateAPIView):
-    """
-    GET: Bitta buyurtmani ko'rish (faqat buyer yoki seller)
-    PATCH: Statusni yangilash
-    """
+    
     permission_classes = [IsAuthenticated]
 
     def get_serializer_class(self):

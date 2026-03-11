@@ -3,9 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
-    """
-    Foydalanuvchi modeli. Telegram orqali autentifikatsiya qilinadi.
-    """
+   
     ROLE_CHOICES = (
         ('customer', 'Xaridor'),
         ('seller', 'Sotuvchi'),
@@ -22,7 +20,6 @@ class User(AbstractUser):
     date_joined = models.DateTimeField(auto_now_add=True)
     last_login = models.DateTimeField(null=True, blank=True)
 
-    # AbstractUser password maydonini ixtiyoriy qilamiz
     password = models.CharField(max_length=128, blank=True, default='')
 
     USERNAME_FIELD = 'username'
@@ -38,10 +35,8 @@ class User(AbstractUser):
 
     @property
     def is_seller(self):
-        """Foydalanuvchi sotuvchimi?"""
         return self.role == 'seller'
 
     @property
     def is_customer(self):
-        """Foydalanuvchi xaridormi?"""
         return self.role == 'customer'
